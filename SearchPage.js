@@ -33,9 +33,10 @@ class SearchPage extends Component {
         <View style={styles.flowRight}>
           <TouchableHighlight style={styles.button}
           underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Location</Text>
-        </TouchableHighlight>
+            <Text style={styles.buttonText}>Location</Text>
+          </TouchableHighlight>
         </View>
+        <Image source={require('./resources/house.png')} style={styles.images} />
       </View>
     );
   }
@@ -85,6 +86,10 @@ const styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC'
+  },
+  image: {
+    width: 217,
+    height: 138
   }
 });
 
