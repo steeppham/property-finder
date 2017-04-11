@@ -83,7 +83,7 @@ class SearchPage extends Component {
   }
 
   _handleResponse(response) {
-    console.log('handleResponse: ' + response);
+    console.log('handleResponse: ' + JSON.stringify(response));
     this.setState({ isLoading: false, message: '' });
     if (response.application_response_code.substr(0, 1) === '1') {
       console.log('Properties found: ' + response.listings.length);
