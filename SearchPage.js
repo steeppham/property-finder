@@ -15,19 +15,15 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchString: 'sydney'
+      searchString: 'sydney',
+      isLoading: false
     };
-  }
-
-  onSearchTextChanged(event) {
-    console.log('onSearchTextChanged');
-    this.setState({ searchString: event.nativeEvent.text }, () => {
-      console.log(this.state.searchString)
-    });
   }
 
   render() {
     console.log('SearchPage.render');
+    var spinner = this.state.isLoading ? 
+    ( <ActivityIndicator size='large'/> ) : ( <View/> );
     return (
       <View style={styles.container}>
         <Text style={styles.description}>
@@ -43,6 +39,7 @@ class SearchPage extends Component {
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='Search via name or postcode' />
           <TouchableHighlight style={styles.button}
+            onPress={this.onSearchPressed.bind(this)}
             underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Go</Text>
           </TouchableHighlight>
@@ -54,9 +51,43 @@ class SearchPage extends Component {
           </TouchableHighlight>
         </View>
         <Image source={require('./resources/house.png')} style={styles.images} />
+        {spinner}
       </View>
     );
   }
+
+  onSearchTextChanged(event) {
+    console.log('onSearchTextChanged');
+    this.setState({ searchString: event.nativeEvent.text }, () => {
+      console.log(this.state.searchString)
+    });
+  }
+
+  _executeQuery(query) {
+    console.log(query);
+    this.setState({ isLoading: true });
+  }
+
+  onSearchPressed(query) {
+    var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
+    this._executeQuery(query);
+  }
+
+}
+
+function urlForQueryAndPage(key, value, pageNumber) {
+  var data = {
+    country: 'uk',
+    pretty: '1',
+    encoding: 'json',
+    listing_type: 'buy',
+    action: 'search_listings',
+    page: pageNumber
+  };
+  data[key] = value;
+  var queryString = Object.keys(data).map(key => key + '=' +
+  encodeURIComponent(data[key])).join('&');
+  return 'http://api.nestoria.co.uk/api?' + queryString;
 }
 
 const styles = StyleSheet.create({
