@@ -16,7 +16,8 @@ class SearchPage extends Component {
     super(props);
     this.state = {
       searchString: 'sydney',
-      isLoading: false
+      isLoading: false,
+      message: ''
     };
   }
 
@@ -52,6 +53,7 @@ class SearchPage extends Component {
         </View>
         <Image source={require('./resources/house.png')} style={styles.images} />
         {spinner}
+        <Text style={styles.description}>{this.state.message}</Text>
       </View>
     );
   }
@@ -64,8 +66,29 @@ class SearchPage extends Component {
   }
 
   _executeQuery(query) {
-    console.log(query);
+    console.log('fetch' + query);
     this.setState({ isLoading: true });
+    fetch(query)
+      .then(response => response.json())
+      .then(json => this._handleResponse(json.response))
+      .catch(error => {
+          console.log('Error: ' + error);
+          this.setState({
+            isLoading: false,
+            message: 'Something bad happened ' + error
+          })
+        }
+      );
+  }
+
+  _handleResponse(response) {
+    console.log('handleResponse: ' + response);
+    this.setState({ isLoading: false, message: '' });
+    if (response.application_response_code.substr(0, 1) === '1') {
+      console.log('Properties found: ' + response.listings.length);
+    } else {
+      this.setState({ message: 'Location not recognized; please try again.'});
+    }
   }
 
   onSearchPressed(query) {
