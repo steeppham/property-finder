@@ -1,8 +1,7 @@
 import 'react-native';
 import React from 'react';
+import { shallow, render, mount } from 'enzyme';
 import PropertyView from '../PropertyView.js';
-
-import renderer from 'react-test-renderer';
 
 describe('PropertyView', () => {
   it('should render PropertyView', () => {
@@ -15,7 +14,7 @@ describe('PropertyView', () => {
       summary: 'summary',
       price_formatted: '$123 GP'
     }
-    const component = renderer.create(<PropertyView property={property}/>);
-    expect(component.toJSON()).toMatchSnapshot();
+    const component = shallow(<PropertyView property={property}/>);
+    expect(component).toMatchSnapshot();
   });
 });
