@@ -7,3 +7,8 @@ Sample project based on [Raywenderlich Tutorial](https://www.raywenderlich.com/1
 $ npm install
 $ react-native run-ios
 ```
+
+## Test
+```
+# npm test
+```

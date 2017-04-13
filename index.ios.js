@@ -2,10 +2,9 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, Text, StyleSheet, NavigatorIOS, View } from 'react-native';
+import SearchPage from './SearchPage';
 
-var SearchPage = require('./SearchPage');
-
-class PropertyFinderApp extends Component {
+export default class PropertyFinderApp extends Component {
   render() {
     return (
       <NavigatorIOS style={styles.container}
